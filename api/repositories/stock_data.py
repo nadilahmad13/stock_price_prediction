@@ -11,6 +11,10 @@ class StockDataRepository:
         return StockData.objects.filter(symbol=stock_symbol).order_by('-date')
 
     @staticmethod
+    def get_stock_data_value(stock_symbol):
+        return StockData.objects.filter(symbol=stock_symbol).values('date', 'close_price', 'open_price', 'high_price', 'low_price', 'volume')
+
+    @staticmethod
     def create_stock_data(data):
         StockData.objects.update_or_create(
             symbol=data['symbol'],
