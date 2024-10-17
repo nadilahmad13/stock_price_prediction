@@ -3,16 +3,18 @@ from ..models import StockData
 
 class StockDataRepository:
     @staticmethod
-    def get_all_stock_data():
-        return StockData.objects.all().order_by('-date')
+    def get_all_stock_data(count=None):
+        if count is not None and count.isdigit():
+            return StockData.objects.all().order_by('-date')[:int(count)]
+        else:
+            return StockData.objects.all().order_by('-date')
 
     @staticmethod
-    def get_stock_data_by_symbol(stock_symbol):
-        return StockData.objects.filter(symbol=stock_symbol).order_by('-date')
-
-    @staticmethod
-    def get_stock_data_value(stock_symbol):
-        return StockData.objects.filter(symbol=stock_symbol).values('date', 'close_price', 'open_price', 'high_price', 'low_price', 'volume')
+    def get_stock_data_by_symbol(stock_symbol, count=None):
+        if count is not None and count.isdigit():
+            return StockData.objects.filter(symbol=stock_symbol).order_by('-date')[:int(count)]
+        else:
+            return StockData.objects.filter(symbol=stock_symbol).order_by('-date')
 
     @staticmethod
     def create_stock_data(data):

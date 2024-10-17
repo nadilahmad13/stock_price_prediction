@@ -5,7 +5,7 @@ from ..repositories.stock_data import StockDataRepository
 class BacktestingUseCase:
     @staticmethod
     def run_backtest(symbol, initial_investment, short_ma_days, long_ma_days):
-        stock_data = StockDataRepository.get_stock_data_value(symbol)
+        stock_data = StockDataRepository.get_stock_data_by_symbol(symbol).values('date', 'close_price', 'open_price', 'high_price', 'low_price', 'volume')
         if not stock_data:
             return {"error": "Stock data not found"}
 

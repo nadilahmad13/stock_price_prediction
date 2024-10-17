@@ -10,22 +10,22 @@ API_URL = os.environ.get('API_URL')
 
 class StockDataUseCase:
     @staticmethod
-    def get_stock_data(symbol=None):
+    def get_stock_data(symbol=None, count=None):
         if symbol:
             stock_data = StockDataRepository.get_stock_data_by_symbol(
-                symbol)
+                symbol, count)
         else:
-            stock_data = StockDataRepository.get_all_stock_data()
+            stock_data = StockDataRepository.get_all_stock_data(count)
 
         return stock_data
 
     @staticmethod
-    def create_stock_data(stock_symbol):
-        if not stock_symbol:
+    def create_stock_data(params):
+        if not params['symbol']:
             return {"error": "Stock symbol is required"}
 
         response = requests.get(
-            f"{API_URL}?function=TIME_SERIES_DAILY&symbol={stock_symbol}&apikey={ALPHA_VINTAGE_API_KEY}")
+            f"{API_URL}?function=TIME_SERIES_DAILY&symbol={params['symbol']}&apikey={ALPHA_VINTAGE_API_KEY}&outputsize={params['outputsize']}")
 
         if response.status_code != 200:
             return {"error": "Failed to fetch data from Alpha Vantage"}
@@ -39,7 +39,7 @@ class StockDataUseCase:
 
         for date, values in time_series.items():
             StockDataRepository.create_stock_data({
-                'symbol': stock_symbol,
+                'symbol': params['symbol'],
                 'date': date,
                 'open_price': values['1. open'],
                 'high_price': values['2. high'],
