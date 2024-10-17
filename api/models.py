@@ -1,8 +1,7 @@
 from django.db import models
 
-# Create your models here.
 
-class StockPrice(models.Model):
+class StockData(models.Model):
     symbol = models.CharField(max_length=10)
     date = models.DateField()
     open_price = models.DecimalField(max_digits=10, decimal_places=4)
@@ -12,4 +11,4 @@ class StockPrice(models.Model):
     volume = models.BigIntegerField()
 
     class Meta:
-      unique_together = ('symbol', 'date')
+        unique_together = ('symbol', 'date')

@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import update_stock_price, get_stock_price
+from .controllers.stock_data import StockDataController
+from .controllers.backtesting import BacktestingController
 
 urlpatterns = [
-    path('stocks/update', update_stock_price),
-    path('stocks/', get_stock_price),
+    path('stocks/', StockDataController.as_view(), name='stocks'),
+    path('backtest/', BacktestingController.as_view(), name='backtest')
 ]
