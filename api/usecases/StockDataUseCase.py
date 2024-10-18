@@ -1,5 +1,5 @@
 import requests
-from ..repositories.stock_data import StockDataRepository
+from ..repositories.StockDataRepository import StockDataRepository
 from dotenv import load_dotenv
 import os
 

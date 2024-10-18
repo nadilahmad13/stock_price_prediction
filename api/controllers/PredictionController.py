@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from ..usecases.prediction import PredictionUseCase
+from ..usecases.PredictionUseCase import PredictionUseCase
 
 
 class StockPricePredictionView(APIView):

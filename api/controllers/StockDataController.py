@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from ..serializers.stock_data import StockDataSerializer
-from ..usecases.stock_data import StockDataUseCase
+from ..serializers.StockDataSerializer import StockDataSerializer
+from ..usecases.StockDataUseCase import StockDataUseCase
 
 
 class StockDataController(APIView):

@@ -1,5 +1,5 @@
 import pandas as pd
-from ..repositories.stock_data import StockDataRepository
+from ..repositories.StockDataRepository import StockDataRepository
 
 
 class BacktestingUseCase:

@@ -1,7 +1,7 @@
 import pandas as pd
 import joblib
-from ..repositories.stock_data import StockDataRepository
-from ..repositories.prediction import StockPredictionRepository
+from ..repositories.StockDataRepository import StockDataRepository
+from ..repositories.PredictionRepository import StockPredictionRepository
 from datetime import timedelta
 
 
