@@ -12,3 +12,12 @@ class StockData(models.Model):
 
     class Meta:
         unique_together = ('symbol', 'date')
+
+
+class StockPrediction(models.Model):
+    symbol = models.CharField(max_length=10)
+    date = models.DateField()
+    predicted_close = models.DecimalField(max_digits=10, decimal_places=4)
+
+    class Meta:
+        unique_together = ('symbol', 'date')

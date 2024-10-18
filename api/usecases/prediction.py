@@ -1,6 +1,7 @@
 import pandas as pd
 import joblib
 from ..repositories.stock_data import StockDataRepository
+from ..repositories.prediction import StockPredictionRepository
 from datetime import timedelta
 
 
@@ -31,3 +32,8 @@ class PredictionUseCase:
             prediction_input = [[predicted_price]]
 
         return predictions
+
+    def save_stock_prediction(symbol, predictions):
+        for prediction in predictions:
+            StockPredictionRepository.save_stock_prediction(
+                symbol, prediction['date'], prediction['predicted_close'])
