@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "ebba8bc7-9391-4d14-a0d6-af7840d4b855",
+		"name": "Stock Price Prediction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27059589"
+	},
+	"item": [
+		{
+			"name": "Fetch Stock Price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=D1U1GP6B39O48KSG&outputsize=full",
+					"protocol": "https",
+					"host": [
+						"www",
+						"alphavantage",
+						"co"
+					],
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "function",
+							"value": "TIME_SERIES_DAILY"
+						},
+						{
+							"key": "symbol",
+							"value": "IBM"
+						},
+						{
+							"key": "apikey",
+							"value": "D1U1GP6B39O48KSG"
+						},
+						{
+							"key": "outputsize",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stock Price Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"NVDA\", // optional\r\n    \"count\": \"5\" // optional\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/stocks/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"stocks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Stock Price Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"IBM\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/stocks/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"stocks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Backtest",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"initial_investment\": 1000,\r\n    \"short_ma_days\": 10,\r\n    \"long_ma_days\": 300,\r\n    \"symbol\": \"AMD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/backtest/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"backtest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"NVDA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/predict/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"predict",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Report Backtest",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"NVDA\",\r\n    \"initial_investment\": 1000,\r\n    \"short_ma_days\": 10,\r\n    \"long_ma_days\": 300\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/report/backtest/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"report",
+						"backtest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Report Predict",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\": \"NVDA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.stockpriceprediction.ahmadnadil.com/api/report/predict/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stockpriceprediction",
+						"ahmadnadil",
+						"com"
+					],
+					"path": [
+						"api",
+						"report",
+						"predict",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
