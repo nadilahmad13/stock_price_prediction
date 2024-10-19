@@ -1,36 +1,24 @@
 import pandas as pd
 import joblib
-from ..repositories.StockDataRepository import StockDataRepository
 from ..repositories.PredictionRepository import StockPredictionRepository
-from datetime import timedelta
+from datetime import datetime
+import numpy as np
 
 
 class PredictionUseCase:
     @staticmethod
     def predict_stock_price(symbol):
-        model = joblib.load('./api/model/stock_price_model.pkl')
-        stock_data = StockDataRepository.get_stock_data_by_symbol(symbol).values(
-            'date', 'close_price', 'open_price', 'high_price', 'low_price', 'volume')
-        if not stock_data:
-            return None
-        df = pd.DataFrame(stock_data)
-        df['date'] = pd.to_datetime(df['date'])
-        df.set_index('date', inplace=True)
-
-        last_close_price = df['close_price'].iloc[-1]
-        prediction_input = [[last_close_price]]
-        prediction_input = [[float(i) for i in prediction_input[0]]]
-
+        model = joblib.load('./api/model/stock_price_prediction_model.pkl')
+        future_dates = np.array(
+            [datetime.now().toordinal() + i for i in range(1, 30 + 1)]).reshape(-1, 1)
+        future_predictions = model.predict(future_dates)
         predictions = []
-        date = df.index[0]
-        for i in range(30):
-            predicted_price = model.predict(prediction_input)[0]
-            date += timedelta(days=1)
-            predictions.append(
-                {"date": date, "predicted_close": predicted_price})
-
-            prediction_input = [[predicted_price]]
-
+        for i, future_date in enumerate(future_dates):
+            predictions.append({
+                'date': datetime.fromordinal(int(future_date)),
+                'predicted_close': future_predictions[i]
+            })
+        PredictionUseCase.save_stock_prediction(symbol, predictions)
         return predictions
 
     def save_stock_prediction(symbol, predictions):
