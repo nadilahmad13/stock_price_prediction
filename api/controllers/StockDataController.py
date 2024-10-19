@@ -7,10 +7,15 @@ from ..usecases.StockDataUseCase import StockDataUseCase
 
 class StockDataController(APIView):
     def get(self, request):
-        stock_symbol = request.query_params.get('symbol')
-        count = request.query_params.get('count')
+        params = {
+            'symbol': request.data.get('symbol'),
+            'count': request.data.get('count')
+        }
+        result = StockDataUseCase.get_stock_data(
+            params['symbol'], params['count'])
 
-        result = StockDataUseCase.get_stock_data(stock_symbol, count)
+        if not result:
+            return Response({"error": "Data not found"}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = StockDataSerializer(result, many=True)
 
@@ -19,9 +24,12 @@ class StockDataController(APIView):
     def post(self, request):
         params = {
             'symbol': request.data.get('symbol'),
-            'outputsize': request.data.get('outputsize', 'compact')
+            'outputsize': request.data.get('outputsize', 'full')
         }
 
         result = StockDataUseCase.create_stock_data(params)
+
+        if 'error' in result:
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(result, status=status.HTTP_200_OK)

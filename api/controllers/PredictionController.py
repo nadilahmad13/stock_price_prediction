@@ -5,7 +5,7 @@ from ..usecases.PredictionUseCase import PredictionUseCase
 
 class StockPricePredictionView(APIView):
     def get(self, request):
-        symbol = request.data.get('symbol')
+        symbol = request.data.get('symbol', 'NVDA')
 
         predictions = PredictionUseCase.predict_stock_price(symbol)
 

@@ -37,7 +37,10 @@ class StockDataUseCase:
 
         time_series = data["Time Series (Daily)"]
 
+        ctr = 0
         for date, values in time_series.items():
+            if ctr >= 730:
+                break
             StockDataRepository.create_stock_data({
                 'symbol': params['symbol'],
                 'date': date,
@@ -47,5 +50,6 @@ class StockDataUseCase:
                 'close_price': values['4. close'],
                 'volume': values['5. volume']
             })
+            ctr += 1
 
         return {"message": "Stock data updated successfully"}

@@ -5,10 +5,10 @@ from ..usecases.BackTestingUseCase import BacktestingUseCase
 
 
 class BacktestingController(APIView):
-    def post(self, request):
+    def get(self, request):
         data = request.data
         result = BacktestingUseCase.run_backtest(
-            symbol=data.get('symbol'),
+            symbol=data.get('symbol','NVDA'),
             initial_investment=data.get('initial_investment', 10000),
             short_ma_days=data.get('short_ma_days', 50),
             long_ma_days=data.get('long_ma_days', 200)
