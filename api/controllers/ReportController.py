@@ -29,4 +29,4 @@ class BacktestReportView(APIView):
                                                                  backtest_results, stock_data)
 
         # Return the PDF file as a response
-        return FileResponse(report_pdf, as_attachment=True, filename=f'backtest_report_{params['symbol']}_{datetime.now().strftime("%Y-%m-%d")}.pdf')
+        return FileResponse(report_pdf, as_attachment=True, filename=f"backtest_report_{params['symbol']}_{datetime.now().strftime('%Y-%m-%d')}.pdf")

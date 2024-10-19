@@ -8,7 +8,7 @@ from datetime import timedelta
 class PredictionUseCase:
     @staticmethod
     def predict_stock_price(symbol):
-        model = joblib.load('api\model\stock_price_model.pkl')
+        model = joblib.load('./api/model/stock_price_model.pkl')
         stock_data = StockDataRepository.get_stock_data_by_symbol(symbol).values(
             'date', 'close_price', 'open_price', 'high_price', 'low_price', 'volume')
         if not stock_data:

@@ -95,7 +95,7 @@ class BacktestingUseCase:
         plt.title('Stock Price & Buy/Sell Signals')
         plt.legend()
 
-        plt.savefig('plot.png')
+        plt.savefig('./result/plot.png')
 
         pdf = FPDF(orientation='L', unit='mm', format='A4')
         pdf.add_page()
@@ -108,34 +108,27 @@ class BacktestingUseCase:
         pdf.cell(0, 10, txt="Results", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(10, 30)
-        pdf.cell(0, 10, txt=f"Total Return: {
-            backtest_results['total_return']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Total Return: {backtest_results['total_return']:.4f}", ln=True)
         pdf.set_xy(10, 40)
-        pdf.cell(0, 10, txt=f"Max Drawdown: {
-            backtest_results['max_drawdown']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Max Drawdown: {backtest_results['max_drawdown']:.4f}", ln=True)
         pdf.set_xy(10, 50)
-        pdf.cell(0, 10, txt=f"Number of Trades: {
-            backtest_results['number_of_trades']}", ln=True)
+        pdf.cell(0, 10, txt=f"Number of Trades: {backtest_results['number_of_trades']}", ln=True)
         pdf.set_xy(10, 60)
-        pdf.cell(0, 10, txt=f"Final Portfolio Value: {
-            backtest_results['final_value']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Final Portfolio Value: {backtest_results['final_value']:.4f}", ln=True)
 
         pdf.set_font("Arial", 'B', size=12)
         pdf.set_xy(150, 20)
         pdf.cell(0, 10, txt="Parameters", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(150, 30)
-        pdf.cell(0, 10, txt=f"Initial Investment: {
-            params['initial_investment']}", ln=True)
+        pdf.cell(0, 10, txt=f"Initial Investment: {params['initial_investment']}", ln=True)
         pdf.set_xy(150, 40)
-        pdf.cell(0, 10, txt=f"Short MA Days: {
-            params['short_ma_days']}", ln=True)
+        pdf.cell(0, 10, txt=f"Short MA Days: {params['short_ma_days']}", ln=True)
         pdf.set_xy(150, 50)
-        pdf.cell(0, 10, txt=f"Long MA Days: {
-            params['long_ma_days']}", ln=True)
+        pdf.cell(0, 10, txt=f"Long MA Days: {params['long_ma_days']}", ln=True)
 
-        pdf.image('plot.png', x=10, y=60, w=270)
+        pdf.image('./result/plot.png', x=10, y=60, w=270)
 
-        pdf.output('report.pdf', 'F')
+        pdf.output('./result/report.pdf', 'F')
 
-        return open('report.pdf', 'rb')
+        return open('./result/report.pdf', 'rb')
