@@ -16,6 +16,8 @@
     <br />
     <a href="https://www.linkedin.com/in/ahmadnadil/"><strong> Ahmad Nadil</strong></a>
     <br />
+    <a href=https://github.com/nadilahmad13/stock_price_prediction><strong>GitHub Repository »</strong></a>
+    <br />
     <a href="https://api.stockpriceprediction.ahmadnadil.com/"><strong>https://api.stockpriceprediction.ahmadnadil.com/</strong></a>
     <a>
   </p>
