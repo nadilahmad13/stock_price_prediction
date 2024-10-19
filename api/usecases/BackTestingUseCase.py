@@ -2,7 +2,6 @@ import pandas as pd
 from ..repositories.StockDataRepository import StockDataRepository
 import matplotlib.pyplot as plt
 from fpdf import FPDF
-import matplotlib.dates as mdates
 
 
 class BackTestingUseCase:
@@ -69,7 +68,12 @@ class BackTestingUseCase:
         }
 
     @staticmethod
-    def generate_backtest_report(params, backtest_results, stock_data):
+    def generate_backtest_report(params, backtest_results):
+        stock_data = StockDataRepository.get_stock_data_by_symbol(
+            params['symbol']).values()
+        if not stock_data:
+            return {"error": "No stock data found for the given symbol."}
+
         stock_df = pd.DataFrame(stock_data)
         stock_df['date'] = pd.to_datetime(stock_df['date'])
         stock_df.set_index('date', inplace=True)
@@ -111,28 +115,22 @@ class BackTestingUseCase:
         pdf.cell(0, 10, txt="Results", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(10, 30)
-        pdf.cell(0, 10, txt=f"Total Return: {
-                 backtest_results['total_return']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Total Return: {backtest_results['total_return']:.4f}", ln=True)
         pdf.set_xy(10, 40)
-        pdf.cell(0, 10, txt=f"Max Drawdown: {
-                 backtest_results['max_drawdown']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Max Drawdown: {backtest_results['max_drawdown']:.4f}", ln=True)
         pdf.set_xy(10, 50)
-        pdf.cell(0, 10, txt=f"Number of Trades: {
-                 backtest_results['number_of_trades']}", ln=True)
+        pdf.cell(0, 10, txt=f"Number of Trades: {backtest_results['number_of_trades']}", ln=True)
         pdf.set_xy(10, 60)
-        pdf.cell(0, 10, txt=f"Final Portfolio Value: {
-                 backtest_results['final_value']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Final Portfolio Value: {backtest_results['final_value']:.4f}", ln=True)
 
         pdf.set_font("Arial", 'B', size=12)
         pdf.set_xy(150, 20)
         pdf.cell(0, 10, txt="Parameters", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(150, 30)
-        pdf.cell(0, 10, txt=f"Initial Investment: {
-                 params['initial_investment']}", ln=True)
+        pdf.cell(0, 10, txt=f"Initial Investment: {params['initial_investment']}", ln=True)
         pdf.set_xy(150, 40)
-        pdf.cell(0, 10, txt=f"Short MA Days: {
-                 params['short_ma_days']}", ln=True)
+        pdf.cell(0, 10, txt=f"Short MA Days: {params['short_ma_days']}", ln=True)
         pdf.set_xy(150, 50)
         pdf.cell(0, 10, txt=f"Long MA Days: {params['long_ma_days']}", ln=True)
 

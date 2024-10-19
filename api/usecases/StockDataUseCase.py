@@ -2,6 +2,7 @@ import requests
 from ..repositories.StockDataRepository import StockDataRepository
 from dotenv import load_dotenv
 import os
+from datetime import datetime, timedelta
 
 load_dotenv()
 ALPHA_VINTAGE_API_KEY = os.environ.get('ALPHA_VINTAGE_API_KEY')
@@ -32,24 +33,24 @@ class StockDataUseCase:
 
         data = response.json()
 
+        if "Information" in data:
+            return {"error": data["Information"]}
+
         if "Time Series (Daily)" not in data:
             return {"error": "Invalid data format from Alpha Vantage"}
 
         time_series = data["Time Series (Daily)"]
 
-        ctr = 0
         for date, values in time_series.items():
-            if ctr >= 730:
-                break
-            StockDataRepository.create_stock_data({
-                'symbol': params['symbol'],
-                'date': date,
-                'open_price': values['1. open'],
-                'high_price': values['2. high'],
-                'low_price': values['3. low'],
-                'close_price': values['4. close'],
-                'volume': values['5. volume']
-            })
-            ctr += 1
+            if datetime.strptime(date, '%Y-%m-%d') > datetime.now() - timedelta(days=730):
+                StockDataRepository.create_stock_data({
+                    'symbol': params['symbol'],
+                    'date': date,
+                    'open_price': values['1. open'],
+                    'high_price': values['2. high'],
+                    'low_price': values['3. low'],
+                    'close_price': values['4. close'],
+                    'volume': values['5. volume']
+                })
 
         return {"message": "Stock data updated successfully"}
