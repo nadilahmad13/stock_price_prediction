@@ -1,17 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from ..usecases.BackTestingUseCase import BacktestingUseCase
+from ..usecases.BackTestingUseCase import BackTestingUseCase
 
 
-class BacktestingController(APIView):
+class BackTestingController(APIView):
     def get(self, request):
-        data = request.data
-        result = BacktestingUseCase.run_backtest(
-            symbol=data.get('symbol','NVDA'),
-            initial_investment=data.get('initial_investment', 10000),
-            short_ma_days=data.get('short_ma_days', 50),
-            long_ma_days=data.get('long_ma_days', 200)
+        result = BackTestingUseCase.run_backtest(
+            symbol=request.data.get('symbol','NVDA'),
+            initial_investment=request.data.get('initial_investment', 10000),
+            short_ma_days=request.data.get('short_ma_days', 50),
+            long_ma_days=request.data.get('long_ma_days', 200)
         )
 
         if not result:

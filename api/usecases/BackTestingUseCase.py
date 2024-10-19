@@ -5,7 +5,7 @@ from fpdf import FPDF
 import matplotlib.dates as mdates
 
 
-class BacktestingUseCase:
+class BackTestingUseCase:
     @staticmethod
     def run_backtest(symbol, initial_investment, short_ma_days, long_ma_days):
         stock_data = StockDataRepository.get_stock_data_by_symbol(symbol).values(
