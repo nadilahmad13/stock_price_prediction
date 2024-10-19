@@ -18,6 +18,7 @@ class BacktestingUseCase:
         df['date'] = pd.to_datetime(df['date'])
         df.set_index('date', inplace=True)
 
+        # Calculate moving averages
         df['short_ma'] = df['close_price'].rolling(
             window=short_ma_days, min_periods=1).mean()
         df['long_ma'] = df['close_price'].rolling(
@@ -31,16 +32,18 @@ class BacktestingUseCase:
         actions = []
 
         for index, row in df.iterrows():
+            # Skip rows where moving averages are not available
             if pd.isna(row['short_ma']) or pd.isna(row['long_ma']):
                 continue
 
+            # Buy signal
             if row['close_price'] < row['short_ma'] and cash > 0:
                 shares = cash / row['close_price']
                 cash = 0
                 trades += 1
                 actions.append({"date": index, "action": "buy",
                                "price": row['close_price']})
-
+            # Sell signal
             elif row['close_price'] > row['long_ma'] and shares > 0:
                 cash = shares * row['close_price']
                 shares = 0
@@ -48,8 +51,8 @@ class BacktestingUseCase:
                 actions.append({"date": index, "action": "sell",
                                "price": row['close_price']})
 
+            # Update peak value and max drawdown
             portfolio_value = cash + shares * row['close_price']
-
             peak_value = max(peak_value, portfolio_value)
             drawdown = (peak_value - portfolio_value) / peak_value
             max_drawdown = max(max_drawdown, drawdown)
@@ -108,22 +111,28 @@ class BacktestingUseCase:
         pdf.cell(0, 10, txt="Results", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(10, 30)
-        pdf.cell(0, 10, txt=f"Total Return: {backtest_results['total_return']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Total Return: {
+                 backtest_results['total_return']:.4f}", ln=True)
         pdf.set_xy(10, 40)
-        pdf.cell(0, 10, txt=f"Max Drawdown: {backtest_results['max_drawdown']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Max Drawdown: {
+                 backtest_results['max_drawdown']:.4f}", ln=True)
         pdf.set_xy(10, 50)
-        pdf.cell(0, 10, txt=f"Number of Trades: {backtest_results['number_of_trades']}", ln=True)
+        pdf.cell(0, 10, txt=f"Number of Trades: {
+                 backtest_results['number_of_trades']}", ln=True)
         pdf.set_xy(10, 60)
-        pdf.cell(0, 10, txt=f"Final Portfolio Value: {backtest_results['final_value']:.4f}", ln=True)
+        pdf.cell(0, 10, txt=f"Final Portfolio Value: {
+                 backtest_results['final_value']:.4f}", ln=True)
 
         pdf.set_font("Arial", 'B', size=12)
         pdf.set_xy(150, 20)
         pdf.cell(0, 10, txt="Parameters", ln=True)
         pdf.set_font("Arial", size=12)
         pdf.set_xy(150, 30)
-        pdf.cell(0, 10, txt=f"Initial Investment: {params['initial_investment']}", ln=True)
+        pdf.cell(0, 10, txt=f"Initial Investment: {
+                 params['initial_investment']}", ln=True)
         pdf.set_xy(150, 40)
-        pdf.cell(0, 10, txt=f"Short MA Days: {params['short_ma_days']}", ln=True)
+        pdf.cell(0, 10, txt=f"Short MA Days: {
+                 params['short_ma_days']}", ln=True)
         pdf.set_xy(150, 50)
         pdf.cell(0, 10, txt=f"Long MA Days: {params['long_ma_days']}", ln=True)
 
